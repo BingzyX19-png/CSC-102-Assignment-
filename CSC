@@ -1,0 +1,39 @@
+class Account:
+    def __init__(self, account_number, balance):
+        self.account_number = account_number
+        self.balance = balance
+
+    def deposit(self, amount):
+        self.balance += amount
+        print(f"Deposited ${amount}. New balance: ${self.balance}")
+
+    def withdraw(self, amount):
+        if amount > self.balance:
+            print("Withdrawal failed: Insufficient balance.")
+        else:
+            self.balance -= amount
+            print(f"Withdrawal successful. Remaining balance: ${self.balance}")
+
+
+class SavingsAccount(Account):
+    def __init__(self, account_number, balance):
+        super().__init__(account_number, balance)
+        self.withdraw_limit = 100  # withdrawal limit set to $100
+
+    # Overriding the withdraw method
+    def withdraw(self, amount):
+        if amount > self.withdraw_limit:
+            print(f"Withdrawal failed: Amount exceeds withdrawal limit of ${self.withdraw_limit}")
+        elif amount > self.balance:
+            print("Withdrawal failed: Insufficient balance.")
+        else:
+            self.balance -= amount
+            print(f"Withdrawal successful. Remaining balance: ${self.balance}")
+
+
+# Example usage
+savings = SavingsAccount("SA12345", 500)
+
+savings.withdraw(50)    # Successful
+savings.withdraw(150)   # Exceeds limit
+savings.withdraw(600)   # Insufficient balance
